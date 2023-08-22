@@ -96,7 +96,7 @@ class PqGrid extends React.Component {
   componentDidMount() {
     this.options = this.props.option;
     this.grid = pq.grid(this.gridRef.current, this.options);
-    this.grid.Tree().option({ dataIndx: 'name', cascade: true });
+    //this.grid.Tree().option({ dataIndx: 'name', cascade: true });
   }
   componentDidUpdate(prevProps) {
     Object.assign(this.options, this.props.option);
@@ -128,6 +128,8 @@ class App extends React.Component {
       locale: 'en',
       animModel: { on: true },
       collapsible: { toggled: true },
+      scrollModel: { autoFit: true },
+
       rowHt: 24,
       height: '400',
       columnTemplate: { width: 100 },

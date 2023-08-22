@@ -96,7 +96,6 @@ class PqGrid extends React.Component {
   componentDidMount() {
     this.options = this.props.option;
     this.grid = pq.grid(this.gridRef.current, this.options);
-    //this.grid.Tree().option({ dataIndx: 'name', cascade: true });
   }
   componentDidUpdate(prevProps) {
     Object.assign(this.options, this.props.option);
@@ -134,6 +133,8 @@ class App extends React.Component {
       height: '400',
       columnTemplate: { width: 100 },
 
+      //this is error => do not use treeModel when initialize
+      treeModel: { dataIndx: 'name', cascade: true },
       colModel: this.rGridCol,
       dataModel: { data: rGridColData },
     };

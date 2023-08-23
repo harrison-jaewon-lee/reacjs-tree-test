@@ -142,26 +142,46 @@ const rGridColData2 = [
 ];
 
 class PqGrid extends React.Component {
+  //constructor(props)
+  //super(props)
   gridRef = React.createRef();
   componentDidMount() {
     this.options = this.props.option;
     this.grid = pq.grid(this.gridRef.current, this.options);
     console.log('mount');
+    console.log(this.props.option.treeModel);
+    console.log(this.props.option.dataModel.data[0].children);
   }
   componentDidUpdate(prevProps) {
-    Object.assign(this.options, this.props.option);
     console.log('update');
-    console.log(this.props.option.dataModel.data);
+    console.log(prevProps.option.dataModel.data[0].children);
+    console.log(this.options.dataModel.data[0].children);
+
+    Object.assign(this.options, this.props.option);
+
+    console.log(this.options);
+    console.log(this.options.treeModel);
+    console.log(this.options.dataModel.data[0].children);
+    console.log(this.props.option);
+    console.log(this.props.option.dataModel.data[0].children);
+  }
+  componentWillUnmount() {
+    this.grid.destroy();
+    console.log('destroy');
+  }
+  componentDidCatch(error, errorInfo) {
+    console.log('-->' + error);
+    // You can also log the error to an error reporting service
+    //logErrorToMyService(error, errorInfo);
   }
   render() {
     console.log('render');
     return <div ref={this.gridRef}></div>;
   }
   //expose Customize method
-  onTree(opt) {
-    console.log('tree');
-    this.grid.Tree().option(opt);
-  }
+  // onTree(opt) {
+  //   this.grid.Tree().option(opt);
+  // }
 }
 
 class App extends React.Component {
@@ -184,7 +204,7 @@ class App extends React.Component {
 
     this.rGridOption = {
       showTitle: false,
-      reactive: true,
+      //reactive: true,
       locale: 'en',
       animModel: { on: true },
       collapsible: { on: false, toogle: false },
@@ -195,7 +215,7 @@ class App extends React.Component {
       columnTemplate: { width: 100 },
 
       //this is error => do not use treeModel when initialize
-      //treeModel: { dataIndx: 'name', cascade: true },
+      treeModel: { dataIndx: 'name', cascade: true },
       colModel: this.rGridCol,
       dataModel: { data: rGridColData1 },
     };
@@ -205,14 +225,14 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.timer = setTimeout(() => {
-      this.callRef.current.onTree({ dataIndx: 'name', cascade: true });
-    }, 1000);
-  }
-  componentDidUpdate() {
-    clearTimeout(this.timer);
-  }
+  // componentDidMount() {
+  //   this.timer = setTimeout(() => {
+  //     this.callRef.current.onTree({ dataIndx: 'name', cascade: true });
+  //   }, 1000);
+  // }
+  // componentDidUpdate() {
+  //   clearTimeout(this.timer);
+  // }
 
   bthSearch_Click(event) {
     this.setState(function (state) {
@@ -220,6 +240,10 @@ class App extends React.Component {
       datamodel.data = rGridColData2;
       return { gridRight: { dataModel: datamodel } };
     });
+
+    // this.timer = setTimeout(() => {
+
+    // }, 1000);
   }
 
   render() {

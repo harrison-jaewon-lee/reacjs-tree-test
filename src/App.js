@@ -93,14 +93,26 @@ const rGridColData = [
 
 class PqGrid extends React.Component {
   gridRef = React.createRef();
+  componentDidCatch(error, errorInfo) {
+    console.log(error);
+    // You can also log the error to an error reporting service
+    //logErrorToMyService(error, errorInfo);
+  }
+  componentWillUnmount() {
+    this.grid.destroy();
+    console.log('distroy');
+  }
   componentDidMount() {
     this.options = this.props.option;
     this.grid = pq.grid(this.gridRef.current, this.options);
+    console.log('mount');
   }
   componentDidUpdate(prevProps) {
     Object.assign(this.options, this.props.option);
+    console.log('update');
   }
   render() {
+    console.log('render');
     return <div ref={this.gridRef}></div>;
   }
 }
@@ -123,7 +135,7 @@ class App extends React.Component {
 
     this.rGridOption = {
       showTitle: false,
-      reactive: true,
+      //reactive: true,
       locale: 'en',
       animModel: { on: true },
       collapsible: { toggled: true },
@@ -133,7 +145,6 @@ class App extends React.Component {
       height: '400',
       columnTemplate: { width: 100 },
 
-      //this is error => do not use treeModel when initialize
       treeModel: { dataIndx: 'name', cascade: true },
       colModel: this.rGridCol,
       dataModel: { data: rGridColData },
